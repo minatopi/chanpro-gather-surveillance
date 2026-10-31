@@ -1,9 +1,9 @@
 name: Automated Uptime Monitoring
 
 on:
-  schedule:
+ # schedule:
     # 30分ごとに実行（毎時0分と30分にトリガーされます）
-    - cron: '0,30 * * * *'
+   # - cron: '0,30 * * * *'
   
   # 手動実行をより確実に有効化するための明示的な記述
   workflow_dispatch: {}
