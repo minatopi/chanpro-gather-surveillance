@@ -2,12 +2,12 @@ name: Automated Uptime Monitoring
 
 on:
   schedule:
-    # 5分ごとに実行（GitHubの混雑具合により多少前後します）
-    - cron: '*/30 * * * *'
-  workflow_dispatch: # 手動実行も可能にする
+    # 30分ごとに実行（毎時0分と30分）
+    - cron: '0,30 * * * *'
+  workflow_dispatch: # 手動実行を有効化（構文自体はこれで正しいです）
 
 permissions:
-  contents: write # リポジトリにJSONをプッシュするために必要
+  contents: write # 変更をプッシュするために必須
 
 jobs:
   monitor:
@@ -35,8 +35,8 @@ jobs:
         git config --local user.email "github-actions[bot]@://github.com"
         git config --local user.name "github-actions[bot]"
         
-        # 変更（metrics.json）がある場合のみコミットしてプッシュ
-        if ! git diff --exit-code metrics.json; then
+        # ファイルが存在しない、または変更がある場合のみコミット
+        if [ ! -f metrics.json ] || ! git diff --exit-code metrics.json; then
           git add metrics.json
           git commit -m "chore: update uptime metrics [skip ci]"
           git push
