@@ -1,1 +1,23 @@
-{}
+{
+  "chanpro-gather": {
+    "config": {
+      "url": "https://chanpro-gather.vercel.app/api/health?token=minato126"
+    },
+    "stats": {
+      "total_checks": 1,
+      "success_checks": 1,
+      "failed_checks": 0,
+      "avg_response_time_ms": 646.96,
+      "last_status": "UP",
+      "last_checked": "2026-10-31T13:49:54.468149Z"
+    },
+    "history": [
+      {
+        "timestamp": "2026-10-31T13:49:54.468149Z",
+        "status_code": 200,
+        "response_time_ms": 646.96,
+        "is_up": true
+      }
+    ]
+  }
+}
