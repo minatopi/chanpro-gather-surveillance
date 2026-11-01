@@ -1,6 +1,7 @@
-from datetime import datetime, timezone
 import os
-import requests
+import sys
+import json
+from datetime import datetime, timezone
 
 VERCEL_MONITOR_API = "chanpro-gather-management.vercel.app/api/monitor"
 MONITOR_API_KEY = os.environ["MONITOR_API_KEY"]
