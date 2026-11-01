@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChanPro Uptime Monitor</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #101827;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 30px 16px;
+    }
+    main {
+      max-width: 850px;
+      margin: auto;
+    }
+    h1 { color: #60a5fa; }
+    .panel {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .status { color: #4ade80; }
+    .error { color: #f87171; }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    button {
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>ChanPro Uptime Monitor</h1>
+  <p>サービス稼働状況モニター</p>
+
+  <section class="panel">
+    <h2>監視データ</h2>
+    <p id="status">読み込み中...</p>
+    <p id="updated"></p>
+    <button onclick="loadMetrics()">更新</button>
+    <pre id="metrics">Loading...</pre>
+  </section>
+</main>
+
+<script>
+async function loadMetrics() {
+  const status = document.getElementById("status");
+  const output = document.getElementById("metrics");
+  const updated = document.getElementById("updated");
+
+  status.textContent = "データ取得中...";
+  status.className = "";
+
+  try {
+    const response = await fetch(
+      "./metrics.json?t=" + Date.now()
+    );
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    output.textContent = JSON.stringify(data, null, 2);
+    status.textContent = "監視データ取得成功";
+    status.className = "status";
+    updated.textContent =
+      "最終取得: " + new Date().toLocaleString("ja-JP");
+
+  } catch (error) {
+    status.textContent = "データ取得失敗: " + error.message;
+    status.className = "error";
+    output.textContent = "metrics.json を読み込めませんでした。";
+  }
+}
+
+loadMetrics();
+</script>
+</body>
+</html>
