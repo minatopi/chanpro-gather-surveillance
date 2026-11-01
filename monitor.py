@@ -1,20 +1,25 @@
+
+import requests
 import os
 import sys
 import json
 from datetime import datetime, timezone
 
-VERCEL_MONITOR_API = "chanpro-gather-management.vercel.app/api/monitor"
-MONITOR_API_KEY = os.environ["MONITOR_API_KEY"]
+VERCEL_MONITOR_API = "https://chanpro-gather-management.vercel.app/api/monitor"
+
+MONITOR_API_KEY = os.environ.get("MONITOR_API_KEY")
+
+if not MONITOR_API_KEY:
+    raise RuntimeError("MONITOR_API_KEY が設定されていません")
+
 TARGETS = [
     {"name": "chanpro-gather"},
-    # {"name": "another-service"},
 ]
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(BASE_DIR, "metrics.json")
 
 
-# ─── データ読み込み ───
 def load_existing_data():
     if os.path.exists(DATA_FILE):
         try:
@@ -25,7 +30,6 @@ def load_existing_data():
     return {}
 
 
-# ─── データ保存 ───
 def save_data(data):
     temp_file = DATA_FILE + ".tmp"
 
@@ -35,7 +39,6 @@ def save_data(data):
     os.replace(temp_file, DATA_FILE)
 
 
-# ─── Vercel監視API呼び出し ───
 def check_target(name):
     try:
         response = requests.post(
@@ -60,8 +63,10 @@ def check_target(name):
     except requests.exceptions.RequestException as e:
         return None, None, False, str(e)
 
+    except ValueError as e:
+        return None, None, False, f"Invalid JSON response: {e}"
 
-# ─── メイン処理 ───
+
 def main():
     current_time = datetime.now(timezone.utc).isoformat()
     existing_data = load_existing_data()
@@ -85,10 +90,8 @@ def main():
         stats = existing_data[name]["stats"]
         history = existing_data[name]["history"]
 
-        # Vercelから監視結果を取得
         status_code, response_time_ms, is_up, error_msg = check_target(name)
 
-        # 統計更新
         stats["total_checks"] += 1
 
         if is_up:
@@ -99,7 +102,6 @@ def main():
         stats["last_status"] = "UP" if is_up else "DOWN"
         stats["last_checked"] = current_time
 
-        # 平均応答時間を更新
         if response_time_ms is not None:
             old_count = stats["total_checks"] - 1
             old_avg = stats["avg_response_time_ms"]
@@ -110,7 +112,6 @@ def main():
                 2
             )
 
-        # 履歴を追加
         entry = {
             "timestamp": current_time,
             "status_code": status_code,
@@ -122,11 +123,8 @@ def main():
             entry["error"] = error_msg
 
         history.append(entry)
-
-        # 最新100件だけ保持
         existing_data[name]["history"] = history[-100:]
 
-        # 途中で停止しても結果を残せるよう都度保存
         save_data(existing_data)
 
         print(
