@@ -39,3 +39,10 @@ jobs:
           else
             echo "No changes in metrics."
           fi
+      - name: Check execution location
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner Name: $RUNNER_NAME"
+          echo "Runner Region: $GITHUB_REGION"
+          echo "Runner IP:"
+          curl -s https://ipinfo.io/json
