@@ -5,7 +5,7 @@ import sys
 import json
 from datetime import datetime, timezone
 
-VERCEL_MONITOR_API = "https://chanpro-gather-management.vercel.app/api/monitor"
+VERCEL_MONITOR_API = "https://chanpro-gather-management.vercel.app/api/monitor/route.js"
 
 MONITOR_API_KEY = os.environ.get("MONITOR_API_KEY")
 
