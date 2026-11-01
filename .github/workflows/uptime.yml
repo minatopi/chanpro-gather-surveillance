@@ -25,6 +25,8 @@ jobs:
           pip install requests
 
       - name: Run monitoring script
+        env:
+          MONITOR_API_KEY: ${{ secrets.MONITOR_API_KEY }}
         run: python monitor.py
 
       - name: Commit and Push metrics JSON
