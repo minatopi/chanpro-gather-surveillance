@@ -4,12 +4,12 @@
       "url": "https://chanpro-gather.vercel.app/api/health?token=minato126"
     },
     "stats": {
-      "total_checks": 13,
-      "success_checks": 11,
+      "total_checks": 14,
+      "success_checks": 12,
       "failed_checks": 2,
-      "avg_response_time_ms": 1606.96,
-      "last_status": "DOWN",
-      "last_checked": "2026-11-01T08:30:36.254813+00:00"
+      "avg_response_time_ms": 1546.28,
+      "last_status": "UP",
+      "last_checked": "2026-11-01T08:44:51.013895+00:00"
     },
     "history": [
       {
@@ -91,6 +91,12 @@
         "response_time_ms": null,
         "is_up": false,
         "error": "404 Client Error: Not Found for url: https://chanpro-gather-management.vercel.app/api/monitor"
+      },
+      {
+        "timestamp": "2026-11-01T08:44:51.013895+00:00",
+        "status_code": 200,
+        "response_time_ms": 757.48,
+        "is_up": true
       }
     ]
   }
