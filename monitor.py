@@ -61,7 +61,12 @@ def main():
             response = requests.get(url, timeout=10)
             status_code = response.status_code
             response_time_ms = round((time.time() - start_time) * 1000, 2)
-            is_up = (200 <= status_code < 400)
+            
+            try:
+                response_data = response.json()
+                is_up = response_data.get("status") == "ok"
+            except (ValueError, AttributeError):
+                is_up = False
         except requests.exceptions.RequestException as e:
             response_time_ms = round((time.time() - start_time) * 1000, 2)
             is_up = False
