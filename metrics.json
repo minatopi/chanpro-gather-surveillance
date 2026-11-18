@@ -4,20 +4,14 @@
       "url": "https://chanpro-gather.vercel.app/api/health?token=minato126"
     },
     "stats": {
-      "total_checks": 855,
-      "success_checks": 852,
+      "total_checks": 856,
+      "success_checks": 853,
       "failed_checks": 3,
-      "avg_response_time_ms": 1264.01,
+      "avg_response_time_ms": 1263.68,
       "last_status": "UP",
-      "last_checked": "2026-11-18T22:30:44.517324+00:00"
+      "last_checked": "2026-11-18T23:00:51.777899+00:00"
     },
     "history": [
-      {
-        "timestamp": "2026-11-16T21:00:46.681515+00:00",
-        "status_code": 200,
-        "response_time_ms": 1445.04,
-        "is_up": true
-      },
       {
         "timestamp": "2026-11-16T21:30:40.397999+00:00",
         "status_code": 200,
@@ -610,6 +604,12 @@
         "timestamp": "2026-11-18T22:30:44.517324+00:00",
         "status_code": 200,
         "response_time_ms": 1676.68,
+        "is_up": true
+      },
+      {
+        "timestamp": "2026-11-18T23:00:51.777899+00:00",
+        "status_code": 200,
+        "response_time_ms": 980.92,
         "is_up": true
       }
     ]
